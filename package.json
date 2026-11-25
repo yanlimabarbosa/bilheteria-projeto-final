@@ -1,0 +1,23 @@
+{
+  "name": "bilheteria",
+  "version": "1.0.0",
+  "description": "Projeto final de Paradigmas de Linguagens de Programação. Enunciado completo no Blackboard.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsx testes/executar.ts testes/projeto.ts src --legivel",
+    "start": "tsx src/main.ts",
+    "bench": "tsx src/bench.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "type": "module",
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
