@@ -1,0 +1,88 @@
+@url = http://localhost:3000
+
+### Listar eventos
+GET {{url}}/eventos
+
+### Reserva de uma pessoa (estudante paga meia)
+POST {{url}}/reservas
+Content-Type: application/json
+
+{
+  "eventoId": 2,
+  "ingressos": [
+    { "nome": "Ana", "idade": 20, "estudante": true, "pcd": false, "poltrona": 7 }
+  ]
+}
+
+### Família comprando junta (inteira, PcD e 60+)
+POST {{url}}/reservas
+Content-Type: application/json
+
+{
+  "eventoId": 3,
+  "ingressos": [
+    { "nome": "Carlos", "idade": 40, "estudante": false, "pcd": false, "poltrona": 1 },
+    { "nome": "Bia", "idade": 35, "estudante": false, "pcd": true, "poltrona": 2 },
+    { "nome": "Dona Rosa", "idade": 68, "estudante": false, "pcd": false, "poltrona": 3 }
+  ]
+}
+
+### 409: poltrona já vendida (rode depois da reserva da Ana)
+POST {{url}}/reservas
+Content-Type: application/json
+
+{
+  "eventoId": 2,
+  "ingressos": [
+    { "nome": "Beto", "idade": 30, "estudante": false, "pcd": false, "poltrona": 7 }
+  ]
+}
+
+### 400: poltrona que não existe
+POST {{url}}/reservas
+Content-Type: application/json
+
+{
+  "eventoId": 2,
+  "ingressos": [
+    { "nome": "Beto", "idade": 30, "estudante": false, "pcd": false, "poltrona": 999 }
+  ]
+}
+
+### 400: mesma poltrona duas vezes no pedido
+POST {{url}}/reservas
+Content-Type: application/json
+
+{
+  "eventoId": 2,
+  "ingressos": [
+    { "nome": "Beto", "idade": 30, "estudante": false, "pcd": false, "poltrona": 10 },
+    { "nome": "Caio", "idade": 30, "estudante": false, "pcd": false, "poltrona": 10 }
+  ]
+}
+
+### 400: pedido sem ingressos
+POST {{url}}/reservas
+Content-Type: application/json
+
+{
+  "eventoId": 2,
+  "ingressos": []
+}
+
+### 404: evento que não existe
+POST {{url}}/reservas
+Content-Type: application/json
+
+{
+  "eventoId": 99,
+  "ingressos": [
+    { "nome": "Ana", "idade": 20, "estudante": true, "pcd": false, "poltrona": 1 }
+  ]
+}
+
+### 400: JSON inválido
+POST {{url}}/reservas
+Content-Type: application/json
+
+{ "eventoId": 2, "ingressos": [
