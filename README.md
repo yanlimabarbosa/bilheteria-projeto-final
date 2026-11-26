@@ -106,9 +106,15 @@ curl -X POST localhost:3000/reservas -H 'Content-Type: application/json' \
 
 | Cenário | Pedidos | Tempo (ms) | Vendidos | Poltrona ocupada | Falha de pagamento |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| Padrão (`main.ts`) | 200 | | | | |
+| Padrão (`main.ts`) | 200 | 193 | 90 | 100 | 10 |
 
 O bench ocupa as poltronas do evento 1: para rodar de novo, parem o `npm start` (Ctrl+C) e subam outra
 vez.
 
-O que os números mostram:
+O que os números mostram: os 200 pedidos terminaram em cerca de 190 ms, perto de 1000 pedidos por
+segundo. Um a um, com 80 ms de operadora cada, levariam uns 16 s: enquanto um pedido espera o pagamento,
+o Node atende os outros. Nenhuma poltrona foi vendida duas vezes. Os 100 recusados com 409 são o segundo
+pedido de cada poltrona, que chega com ela já marcada e não é cobrado. Os 10 com 502 são a operadora
+falsa falhando 10% das vezes; essas poltronas voltaram para a venda (`liberar`), por isso vendidos +
+falhas = 100. Elas ficaram livres porque o segundo pedido da mesma poltrona já tinha recebido 409 antes
+de o pagamento do primeiro falhar. Em três execuções os números foram 87/100/13, 90/100/10 e 90/100/10.
