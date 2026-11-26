@@ -42,9 +42,9 @@ curl -X POST localhost:3000/reservas -H 'Content-Type: application/json' \
 
 | Nome | Usuário do GitHub | Parte principal |
 | :--- | :--- | :--- |
-| Yan Lima Barbosa | yanlimabarbosa | |
-| João Gabriel Souza Oliveira | Joaogabreil25 | |
-| Wanchristersenn Victtor da Silva Ideao | | |
+| Yan Lima Barbosa | yanlimabarbosa | Concorrência (`bilheteria.ts`), `regras.ts`, `main.ts` e README |
+| João Gabriel Souza Oliveira | Joaogabreil25 | Funcional (`preco.ts`) |
+| Wanchristersenn Victtor da Silva Ideao | Wanchristersenn | Orientado a objetos (`dominio.ts`) |
 
 ### Decisões
 
