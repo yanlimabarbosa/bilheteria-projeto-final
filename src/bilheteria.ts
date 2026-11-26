@@ -1,4 +1,4 @@
-import { DadosInvalidosErro, Evento, NaoEncontradoErro } from "./dominio.ts";
+import { DadosInvalidosErro, Evento, NaoEncontradoErro, PagamentoErro } from "./dominio.ts";
 import type { Pagamento } from "./pagamento.ts";
 import { calcularTotal, montarIngressos } from "./preco.ts";
 import { direitoAMeia } from "./regras.ts";
@@ -35,7 +35,12 @@ export class Bilheteria {
     const ingressos = montarIngressos(evento.preco, pedido.ingressos, direitoAMeia);
     const total = calcularTotal(ingressos);
 
-    await this.#pagar(total);
+    try {
+      await this.#pagar(total);
+    } catch (erro) {
+      evento.liberar(poltronas);
+      throw new PagamentoErro(`pagamento não aprovado: ${(erro as Error).message}`);
+    }
 
     const reservaId = this.#proximoReservaId++;
     return { reservaId, eventoId: evento.id, ingressos, total };
